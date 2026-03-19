@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Credit Scoring</title>
+</head>
+
+<body>
+
+<style>
+/* GLOBAL RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* BACKGROUND */
+body {
+    background: #f7f8fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* CARD */
+.container {
+    width: 500px;
+    padding: 40px 35px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.07);
+}
+
+/* TITLE */
+h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 25px;
+}
+
+/* LABELS */
+label {
+    display: block;
+    margin-top: 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+}
+
+/* INPUT FIELDS */
+input, select {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #1f2937;
+    transition: 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 28px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #1e40af;
+}
+</style>
+
+<div class="container">
+    <h2>AI Credit Risk Prediction</h2>
+
+    <form action="/predict" method="post">
+
+        <label>Age :</label>
+        <input type="number" name="age" placeholder="Enter your age" required>
+
+        <label>Monthly Income (₹)</label>
+        <input type="number" name="monthly_income" placeholder="Enter monthly income" required>
+
+        <label>Employment Years</label>
+        <input type="number" name="employment_years" placeholder="Years of work experience" required>
+
+        <label>Existing Loan (₹)</label>
+        <input type="number" name="existing_loan" placeholder="Total loan amount" required>
+
+        <label>Monthly Expense (₹)</label>
+        <input type="number" name="monthly_expense" placeholder="Your monthly expenses" required>
+
+        <!-- 🔥 UPDATED DROPDOWN -->
+        <label>Payment Behaviour :</label>
+        <select name="payment_history" required>
+            <option value="">-- Select your payment behavior --</option>
+            <option value="2">Good (Always paid on time)</option>
+            <option value="1">Average (Sometimes late)</option>
+            <option value="0">Poor (Missed payments)</option>
+        </select>
+
+        <button type="submit">Predict Risk</button>
+
+    </form>
+</div>
+
+</body>
+</html>
