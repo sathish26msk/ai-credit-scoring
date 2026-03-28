@@ -1,63 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Result</title>
 
-    <style>
-        body {
-            font-family: Arial;
-            background: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<style>
+body {
+    font-family: Arial;
+    background: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+}
 
-        .card {
-            width: 90%;
-            max-width: 400px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+.card {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #3366cc;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 16px;
-        }
+.low { color: green; }
+.medium { color: orange; }
+.high { color: red; }
 
-        ul {
-            text-align: left;
-        }
-    </style>
+ul {
+    text-align: left;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #3366cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="card">
-    <h2>Prediction Result</h2>
 
-    <h1 style="color: {{color}};">{{result}}</h1>
+<h2>Prediction Result</h2>
 
-    <p>Risk Score: {{risk}}%</p>
+<h1 class="
+{% if result == 'Low Risk' %}low
+{% elif result == 'Medium Risk' %}medium
+{% else %}high{% endif %}">
+{{ result }}
+</h1>
 
-    <h3>Reason:</h3>
-    <ul>
-        {% for r in reasons %}
-        <li>{{r}}</li>
-        {% endfor %}
-    </ul>
+<p>Risk Score: {{ risk }}%</p>
 
-    <button onclick="window.location.href='/'">Go Back</button>
+<h3>Why this result?</h3>
+<ul>
+{% for r in reasons %}
+<li>{{ r }}</li>
+{% endfor %}
+</ul>
+
+<button onclick="window.location.href='/'">Go Back</button>
+
 </div>
 
 </body>
