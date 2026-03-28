@@ -1,4 +1,3 @@
-import pickle
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request
@@ -6,10 +5,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+import os
 
 app = Flask(__name__)
 
-# 🔥 TRAIN MODEL AUTOMATICALLY
+# 🔥 LOAD DATA
 data = pd.read_csv("credit_risk_dataset_with_expenses.csv")
 
 X = data[
@@ -25,12 +25,14 @@ X = data[
 
 y = data["loan_status"]
 
+# 🔥 MODEL PIPELINE
 model = Pipeline([
     ("imputer", SimpleImputer(strategy="mean")),
     ("scaler", StandardScaler()),
     ("lr", LogisticRegression(max_iter=1000, class_weight="balanced"))
 ])
 
+# 🔥 TRAIN MODEL
 model.fit(X, y)
 
 # -------------------------
@@ -51,23 +53,29 @@ def predict():
 
     history_input = request.form['payment_history']
 
-    if history_input == "2":
+    # 🔥 Convert user input
+    if history_input == "2":      # Good
         history = 5
-    elif history_input == "1":
+    elif history_input == "1":    # Average
         history = 3
-    else:
+    else:                         # Poor
         history = 1
 
+    # 🔥 Create feature array
     features = np.array([[ 
         age, income, employment, loan, expense, history
     ]])
 
+    # 🔥 Predict probability
     prob = model.predict_proba(features)[0][1]
     risk_percent = round(prob * 100, 2)
 
-    if prob > 0.6:
+    print("Probability:", prob)   # Debug (optional)
+
+    # 🔥 BALANCED THRESHOLD (FIXED)
+    if prob > 0.7:
         result = "High Risk"
-    elif prob > 0.5:
+    elif prob > 0.4:
         result = "Medium Risk"
     else:
         result = "Low Risk"
@@ -75,7 +83,7 @@ def predict():
     return render_template("result.html", result=result, risk=risk_percent)
 
 
-import os
+# -------------------------
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
