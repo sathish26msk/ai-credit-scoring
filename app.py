@@ -53,7 +53,7 @@ def predict():
 
     history_input = request.form['payment_history']
 
-    # 🔥 Convert user input
+    # 🔥 Convert payment history
     if history_input == "2":      # Good
         history = 5
     elif history_input == "1":    # Average
@@ -61,24 +61,31 @@ def predict():
     else:                         # Poor
         history = 1
 
-    # 🔥 Create feature array
+    # 🔥 Feature array
     features = np.array([[ 
         age, income, employment, loan, expense, history
     ]])
 
-    # 🔥 Predict probability
+    # 🔥 ML prediction
     prob = model.predict_proba(features)[0][1]
     risk_percent = round(prob * 100, 2)
 
-    print("Probability:", prob)   # Debug (optional)
+    print("Probability:", prob)
 
-    # 🔥 BALANCED THRESHOLD (FIXED)
-    if prob > 0.7:
-        result = "High Risk"
-    elif prob > 0.4:
-        result = "Medium Risk"
-    else:
+    # 🔥 RULE + ML HYBRID LOGIC (FINAL FIX)
+    if income > 40000 and loan < 80000 and history >= 3:
         result = "Low Risk"
+
+    elif loan > 150000 and history == 1:
+        result = "High Risk"
+
+    else:
+        if prob > 0.7:
+            result = "High Risk"
+        elif prob > 0.4:
+            result = "Medium Risk"
+        else:
+            result = "Low Risk"
 
     return render_template("result.html", result=result, risk=risk_percent)
 
