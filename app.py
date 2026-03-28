@@ -9,9 +9,9 @@ import os
 
 app = Flask(__name__)
 
-# =========================
+# ========================
 # LOAD DATA & TRAIN MODEL
-# =========================
+# ========================
 data = pd.read_csv("credit_risk_dataset_with_expenses.csv")
 
 X = data[
@@ -35,17 +35,17 @@ model = Pipeline([
 
 model.fit(X, y)
 
-# =========================
+# ========================
 # HOME PAGE
-# =========================
+# ========================
 @app.route('/')
 def home():
     return render_template('index.html')
 
 
-# =========================
-# PREDICTION
-# =========================
+# ========================
+# PREDICT
+# ========================
 @app.route('/predict', methods=['POST'])
 def predict():
 
@@ -57,7 +57,6 @@ def predict():
 
     history_input = request.form['payment_history']
 
-    # SIMPLE mapping (safe)
     if history_input == "2":
         history = 5
     elif history_input == "1":
@@ -65,58 +64,66 @@ def predict():
     else:
         history = 1
 
-    features = np.array([[ 
-        age, income, employment, loan, expense, history
-    ]])
+    features = np.array([[age, income, employment, loan, expense, history]])
 
-    # =========================
-    # AI PROBABILITY
-    # =========================
     prob = model.predict_proba(features)[0][1]
     risk_percent = round(prob * 100, 2)
 
-    # =========================
-    # BETTER THRESHOLD (IMPORTANT)
-    # =========================
+    # ========================
+    # RISK CATEGORY
+    # ========================
     if prob > 0.75:
         result = "High Risk"
-        color = "red"
     elif prob > 0.40:
         result = "Medium Risk"
-        color = "orange"
     else:
         result = "Low Risk"
-        color = "green"
 
-    # =========================
-    # SIMPLE REASON SYSTEM
-    # =========================
+    # ========================
+    # EXPLANATION (KEY 🔥)
+    # ========================
     reasons = []
 
-    if loan > income * 0.6:
-        reasons.append("Loan amount is high compared to income")
+    if result == "Low Risk":
+        if income > loan * 2:
+            reasons.append("Income is strong compared to loan")
+        if expense < income * 0.4:
+            reasons.append("Expenses are well controlled")
+        if employment >= 3:
+            reasons.append("Stable employment")
+        if history >= 3:
+            reasons.append("Good credit history")
 
-    if expense > income * 0.5:
-        reasons.append("Monthly expenses are high")
+    elif result == "Medium Risk":
+        if loan > income * 0.3:
+            reasons.append("Loan amount is moderate")
+        if expense > income * 0.4:
+            reasons.append("Expenses are slightly high")
+        if employment < 5:
+            reasons.append("Moderate job stability")
+        reasons.append("Balanced risk between safe and risky factors")
 
-    if employment < 2:
-        reasons.append("Low employment stability")
-
-    if history < 3:
-        reasons.append("Poor credit history")
+    elif result == "High Risk":
+        if loan > income * 0.6:
+            reasons.append("Loan is very high compared to income")
+        if expense > income * 0.5:
+            reasons.append("Expenses are too high")
+        if employment < 2:
+            reasons.append("Unstable employment")
+        if history < 3:
+            reasons.append("Poor credit history")
 
     return render_template(
         "result.html",
         result=result,
         risk=risk_percent,
-        color=color,
         reasons=reasons
     )
 
 
-# =========================
-# RUN APP
-# =========================
+# ========================
+# RUN
+# ========================
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
