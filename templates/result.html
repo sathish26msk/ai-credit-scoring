@@ -18,15 +18,35 @@ body {
 .card {
     width: 100%;
     max-width: 400px;
-    background: white;
     padding: 20px;
     border-radius: 15px;
     text-align: center;
+    transition: 0.3s;
 }
 
-.low { color: green; }
-.medium { color: orange; }
-.high { color: red; }
+/* LOW */
+.low {
+    color: #16a34a;
+}
+.low-bg {
+    background: #dcfce7;
+}
+
+/* MEDIUM */
+.medium {
+    color: #f59e0b;
+}
+.medium-bg {
+    background: #fef3c7;
+}
+
+/* HIGH */
+.high {
+    color: #dc2626;
+}
+.high-bg {
+    background: #fee2e2;
+}
 
 ul {
     text-align: left;
@@ -39,13 +59,17 @@ button {
     color: white;
     border: none;
     border-radius: 8px;
+    margin-top: 15px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="card 
+{% if result == 'Low Risk' %}low-bg
+{% elif result == 'Medium Risk' %}medium-bg
+{% else %}high-bg{% endif %}">
 
 <h2>Prediction Result</h2>
 
@@ -56,7 +80,7 @@ button {
 {{ result }}
 </h1>
 
-<p>Risk Score: {{ risk }}%</p>
+<p><strong>Risk Score:</strong> {{ risk }}%</p>
 
 <h3>Why this result?</h3>
 <ul>
