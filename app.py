@@ -25,13 +25,14 @@ X = data[
 
 y = data["loan_status"]
 
-# 🔥 MODEL
+# 🔥 MODEL PIPELINE
 model = Pipeline([
     ("imputer", SimpleImputer(strategy="mean")),
     ("scaler", StandardScaler()),
     ("lr", LogisticRegression(max_iter=1000))
 ])
 
+# 🔥 TRAIN MODEL
 model.fit(X, y)
 
 # -------------------------
@@ -52,6 +53,7 @@ def predict():
 
     history_input = request.form['payment_history']
 
+    # 🔥 Convert payment history
     if history_input == "2":
         history = 5
     elif history_input == "1":
@@ -59,17 +61,18 @@ def predict():
     else:
         history = 1
 
+    # 🔥 Feature array
     features = np.array([[ 
         age, income, employment, loan, expense, history
     ]])
 
-    # 🔥 PURE AI OUTPUT
+    # 🔥 PREDICTION
     prob = model.predict_proba(features)[0][1]
     risk_percent = round(prob * 100, 2)
 
     print("Probability:", prob)
 
-    # 🔥 CLASSIFICATION (ONLY MODEL)
+    # 🔥 CORRECT CLASSIFICATION (MATCHES %)
     if prob >= 0.7:
         result = "High Risk"
     elif prob >= 0.4:
