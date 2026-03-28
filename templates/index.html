@@ -1,130 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Credit Risk</title>
 
-    <!-- 🔥 MUST FOR MOBILE -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    font-family: Arial;
+    background: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
 
-    <title>AI Credit Risk Prediction</title>
+.container {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+}
 
-    <style>
-        * {
-            box-sizing: border-box; /* 🔥 MAIN FIX */
-        }
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background: white;
-            width: 100%;
-            max-width: 420px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin: 10px;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 8px;
-            background: #2563eb;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1e40af;
-        }
-
-        /* 🔥 MOBILE OPTIMIZATION */
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-
-            h2 {
-                font-size: 18px;
-            }
-
-            input, select {
-                padding: 10px;
-                font-size: 13px;
-            }
-
-            button {
-                padding: 12px;
-                font-size: 14px;
-            }
-        }
-    </style>
+button {
+    width: 100%;
+    padding: 12px;
+    background: #3366cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
-    <h2>AI Credit Risk Prediction</h2>
 
-    <form action="/predict" method="POST">
+<h2>AI Credit Risk Prediction</h2>
 
-        <label>Age</label>
-        <input type="number" name="age" required>
+<form action="/predict" method="POST">
 
-        <label>Monthly Income (₹)</label>
-        <input type="number" name="monthly_income" required>
+<label>Age</label>
+<input type="number" name="age" required>
 
-        <label>Employment Years</label>
-        <input type="number" name="employment_years" required>
+<label>Monthly Income</label>
+<input type="number" name="monthly_income" required>
 
-        <label>Existing Loan (₹)</label>
-        <input type="number" name="existing_loan" required>
+<label>Employment Years</label>
+<input type="number" name="employment_years" required>
 
-        <label>Monthly Expense (₹)</label>
-        <input type="number" name="monthly_expense" required>
+<label>Existing Loan</label>
+<input type="number" name="existing_loan" required>
 
-        <label>Payment Behaviour</label>
-        <select name="payment_history" required>
-            <option value="">-- Select --</option>
-            <option value="2">Good</option>
-            <option value="1">Average</option>
-            <option value="0">Poor</option>
-        </select>
+<label>Monthly Expense</label>
+<input type="number" name="monthly_expense" required>
 
-        <button type="submit">Predict Risk</button>
+<label>Payment Behaviour</label>
+<select name="payment_history">
+    <option value="2">Good</option>
+    <option value="1">Average</option>
+    <option value="0">Poor</option>
+</select>
 
-    </form>
+<button type="submit">Predict Risk</button>
+
+</form>
+
 </div>
 
 </body>
