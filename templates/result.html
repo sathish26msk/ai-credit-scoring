@@ -1,123 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-
-    <!-- 🔥 MOBILE FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Prediction Result</title>
+    <title>Result</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            margin: 0;
+            font-family: Arial;
+            background: #f3f4f6;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
         }
 
-        .container {
+        .card {
+            width: 90%;
+            max-width: 400px;
             background: white;
-            width: 100%;
-            max-width: 380px;
             padding: 20px;
-            border-radius: 14px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
             text-align: center;
-            margin: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        h2 {
-            margin-bottom: 15px;
-        }
-
-        .risk {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-
-        .percentage {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .low {
-            color: green;
-        }
-
-        .medium {
-            color: orange;
-        }
-
-        .high {
-            color: red;
-        }
-
-        .btn {
-            display: block;
+        button {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
-            background: #2563eb;
+            background: #3366cc;
             color: white;
-            text-decoration: none;
-            font-size: 15px;
-            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 16px;
         }
 
-        .btn:hover {
-            background: #1e40af;
-        }
-
-        /* 🔥 MOBILE POLISH */
-        @media (max-width: 480px) {
-            .container {
-                padding: 16px;
-            }
-
-            .risk {
-                font-size: 22px;
-            }
-
-            .percentage {
-                font-size: 16px;
-            }
-
-            .btn {
-                font-size: 14px;
-                padding: 10px;
-            }
+        ul {
+            text-align: left;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
-
+<div class="card">
     <h2>Prediction Result</h2>
 
-    <div class="risk 
-        {% if result == 'Low Risk' %}low
-        {% elif result == 'Medium Risk' %}medium
-        {% else %}high{% endif %}">
-        {{ result }}
-    </div>
+    <h1 style="color: {{color}};">{{result}}</h1>
 
-    <div class="percentage">
-        Risk Score: {{ risk }}%
-    </div>
+    <p>Risk Score: {{risk}}%</p>
 
-    <a href="/" class="btn">Go Back</a>
+    <h3>Reason:</h3>
+    <ul>
+        {% for r in reasons %}
+        <li>{{r}}</li>
+        {% endfor %}
+    </ul>
 
+    <button onclick="window.location.href='/'">Go Back</button>
 </div>
 
 </body>
